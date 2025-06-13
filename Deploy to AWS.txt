@@ -1,0 +1,21 @@
+1. Log to Azure using azure command line interfaces
+
+2. Create a resource group and container registry to store docker image
+
+az group create --name myResourceGroup --location eastus
+az acr create --resource-group myResourceGroup  --name myContainerRegistry --sku Basic 
+
+3. Push the image 
+
+docker tag iris_model_image myContainerRegistry.azurecr.io/iris_model_image:v1
+docker push myContainerRegistry.azurecr.io/iris_model_image:v1
+
+4. Deploy the container to Azure Container instances
+
+az container create --resource-group myResourceGroup --name irisModelContainer --image myContainerRegistry.azurecr.io/iris_model_image:v1 --dns-name-label irismodel --ports 5000
+
+5.Test the deployed model 
+
+Once deployed, you can test the model using the public IP address or DNS label provided by Azure.
+
+
